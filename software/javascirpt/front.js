@@ -48,22 +48,6 @@ function init() {
 init();
 
 function myMove() {
-<<<<<<< HEAD
-    var elem = document.getElementById("myAnimation");   
-    // var id = setInterval(frame, 1);
-    var pos = 300;
-    var id = setInterval(frame, 10);
-    function frame() {
-      // console.log(stop)
-      if (pos == 1050 || stop == true) {
-        clearInterval(id);
-        stop = false
-      } else {
-        pos++; 
-       
-        elem.style.left = pos + 'px'; 
-      }
-=======
   clearInterval(id);
   stop = false
   var elem = document.getElementById("myAnimation");
@@ -76,27 +60,11 @@ function myMove() {
       pos++;
 
       elem.style.left = pos + 'px';
->>>>>>> 71a34d7c7ce6b7ec0163d243d798052c414497e8
     }
   }
 }
 
 
-<<<<<<< HEAD
-  function myBack() {
-    var elem = document.getElementById("myAnimation");   
-    var id = setInterval(frame, 1);
-    function frame() {
-      // console.log(stop)
-      if (pos == 370 || stop == true) {
-        clearInterval(id);
-        stop = false
-      } else {
-        pos--; 
-       
-        elem.style.left = pos + 'px'; 
-      }
-=======
 function myBack() {
   clearInterval(id);
   stop = false
@@ -110,7 +78,6 @@ function myBack() {
       pos--;
 
       elem.style.left = pos + 'px';
->>>>>>> 71a34d7c7ce6b7ec0163d243d798052c414497e8
     }
   }
 }

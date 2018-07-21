@@ -57,10 +57,10 @@ void robot_left(){
 }
 void robot_stop(){
   Serial.println("Robot Stop");
-  digitalWrite(8,LOW);
-  digitalWrite(9,HIGH);
-  digitalWrite(3,LOW);
-  digitalWrite(7,HIGH);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(7, LOW);
   delay(500);
 }
 //////////////////////////////////////////////////
@@ -84,7 +84,9 @@ struct ProjectData {
 //  int32_t isRobotOnRoom;
 } project_data = { 1, 0, 0, 0, 0};
 int32_t motor = 0;
+int32_t sonic = 0;
 struct ServerData {
+  int32_t sonicStatus;
   int32_t switchStatus;
   int32_t motorStatus;
   int32_t goRoom;
@@ -141,6 +143,7 @@ int32_t b = -1;
 
 void loop() {
   project_data.motor = motor;
+//  project_data.ultrasonic = sonic;
 //  Serial.println("LOOP");
   delay(500);
   uint32_t cur_time = millis();
@@ -211,7 +214,9 @@ void loop() {
           cur_buffer_length = 0;
           break;
       }
-    } else if (cur_buffer_length < expected_data_size) {
+    }
+    
+    else if (cur_buffer_length < expected_data_size) {
       buffer[cur_buffer_length++] = ch;
       if (cur_buffer_length == expected_data_size) {
         switch (cur_data_header) {
@@ -263,7 +268,7 @@ void loop() {
             else if(project_data.motor == 0) {
               //Motor Off
                 robot_stop();
-                Serial.println("motorstop");
+                Serial.println("motorstop...............................");
 //                delay(200);
 //                backward.step(stepsPerRevolution);
             }
@@ -284,17 +289,21 @@ void loop() {
 //                project_data.motor = 0;
 //              }
 //            }
-                        
-            if(project_data.ultrasonic < 10 and project_data.motor == 1) {
+            if(data -> sonicStatus < 10) {         
+//            if(project_data.ultrasonic < 10) {
               //STOP MOTOR
+              Serial.print(project_data.ultrasonic);
               Serial.println("Ultrasonic Enable!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
               project_data.motor = 0;
             }
-            else if(project_data.ultrasonic > 10 and project_data.motor == 0) {
+            else if(data -> sonicStatus >= 10) {
+//            else if(project_data.ultrasonic >= 10) {//if(project_data.ultrasonic >= 10 and project_data.motor == 0) {
               //STOP MOTOR
-              Serial.println("Ultrasonic Unable");
+              Serial.println("==================================================================");
               project_data.motor = 1;
+//              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
             }
+            project_data.curRoom = 1;
 //            uint32_t curDataTime = millis();
 //            if (curDataTime - lastTime > 500) {
 //                send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
@@ -305,12 +314,26 @@ void loop() {
             
 //            send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
             Serial.println("UPDATE");
+//            motor = project_data.motor;
           } break;
+          
         }
         cur_buffer_length = -1;
       }
     }
   }
+//  if(project_data.ultrasonic < 10) {
+//              //STOP MOTOR
+//              Serial.println("Ultrasonic OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//              project_data.motor = 0;
+//            }
+//            else if(project_data.ultrasonic >= 10) {//if(project_data.ultrasonic >= 10 and project_data.motor == 0) {
+//              //STOP MOTOR
+//              Serial.println("==================================================================");
+//              project_data.motor = 1;
+////              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
+//            }
+  sonic = project_data.ultrasonic;
   motor = project_data.motor;
 }
 
