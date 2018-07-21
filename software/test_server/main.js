@@ -27,7 +27,7 @@ $(function(){
                             }
                         });
                     }        
-                },
+                }, timeout: 5000,
                 fail: function(response){
                     console.log(response)
                 }
@@ -52,6 +52,7 @@ $(function(){
             success: function (response) {
                 console.log(response)
                 console.log("success post " + a)
+                $('#text-input').val('')
                 }
             });
     })
