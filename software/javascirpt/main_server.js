@@ -3,7 +3,7 @@ var button_back_laundry = 0
 
 var msg = ["switch","go room","motor status"]
 var address = ["switchStatus","goRoom","motorStatus"]
-
+var finish_room = false
 
 $(function(){
     var check="";
@@ -49,7 +49,7 @@ $(function(){
         message = 0
     })
     var box = function(status){
-    $('#box_status').append(`กำลังดำเนินการ : <h1>${status}</h1>`)
+    $('#box_status').html(`สถานะ : <h1>${status}</h1>`)
     }
     setInterval(function(){ 
         let status = ""
@@ -68,12 +68,12 @@ $(function(){
  
         if(check == "switch"){
             keys= "switchStatus"
-            box(`ทำงานเสร็จ`)
+            message = "ทำงานเสร็จ"
+            box(message)
             console.log("POST switch ,status : finish")
         }
         else if(check == "go room")
         {
-
             keys="goRoom"
             if (button_go_room_1 == "0"){
                 button_go_room_1 = 1
@@ -81,7 +81,8 @@ $(function(){
             else {
                 button_go_room_1 = 0
             }
-            box(`กำลังไปห้อง ${message}`)
+            message = "กำลังไปห้อง " + massage 
+            box(massage)
             console.log(`POST go room ${message},status : ${button_go_room_1}`)
             send_server(message,keys)
         }
@@ -95,7 +96,8 @@ $(function(){
             else {
                 button_go_room_1 = 0
             }
-            box(`หยุดทำงาน`)
+            massage = "หยุดทำงาน"
+            box(massage)
             console.log(`POST motor ,status : ${message}`)
             send_server(message,keys)
         }
