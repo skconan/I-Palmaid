@@ -97,7 +97,18 @@ $(function(){
                     console.log(response)
                 }
             });
-
+            $.ajax({
+                type: "GET",
+                url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-curRoom/view",
+                dataType: "text",
+                success: function (response) {
+                    console.log("recieve")
+                    $('#box').append(`<div align=right> <p> current room server status : ${response} </p></div><hr>`)   
+                }, timeout: 5000,
+                fail: function(response){
+                    console.log(response)
+                }
+            });
         },5000)
     })
 
@@ -121,6 +132,10 @@ $(function(){
 
     $(`#go_room`).on('click',function(){
         send("goRoom")
+    })
+    
+    $(`#current_room`).on('click',function(){
+        send("curRoom")
     })
 
     $(`#1`).on('click',function(){
