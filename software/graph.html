@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <title>Date and Time Graph</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+
+</head>
+
+<body>
+    <br>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+        <div class="container">
+            <div></div>
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="rows">
+                    <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span> -->
+                    <!-- <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> -->
+                    <!-- </button> -->
+                    <div class='col-md-5'>
+                        <!-- <a class="navbar-brand" href="index.html" style="display: flex; align-items: center;">
+                        <div class="glyphicon glyphicon-chevron-left"></div> Back
+                    </a> -->
+                    </div>
+                    <div class="col-md-6">
+                        <a class="navbar-brand" style="display: flex; align-items: center;">I - PALMIAD</a>
+                    </div>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+
+            </div>
+            <!-- /.container -->
+    </nav>
+
+
+    <div class="container" id="mid" style="padding-top: 10px;">
+        <div class='row' id="mid">
+            <div class=col-2>
+                <div class=col-md-3></div>
+                <div class=col-md-6>
+
+                    <center>
+                        <h2 id="head">Statistic of Date and Time : room A1</h2>
+                        <br>
+                        <div class="background">
+                            <canvas id="lineChart" width="80%" height="50%"></canvas>
+                        </div>
+                    </center>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src='datetime.js'></script>
+</body>
+
+</html>
