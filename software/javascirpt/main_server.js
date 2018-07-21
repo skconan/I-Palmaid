@@ -94,39 +94,28 @@ $(function(){
         let keys = ""
         
         if(check == "switch"){
-            keys= "switchStatus"
-            message = "ทำงานเสร็จ"
+            keys= "goRoom"
+            message = "กลับห้อง"
             box(message)
             console.log("POST switch ,status : finish")
+            send_server(0,keys)
         }
-        else if(check == "go room")
-        {
-            keys="goRoom"
-            if (button_go_room_1 == "0"){
-                button_go_room_1 = 1
-            }
-            else {
-                button_go_room_1 = 0
-            }
-            message = "กำลังไปห้อง " + message 
-            box(message)
-            console.log(`POST go room ${message},status : ${button_go_room_1}`)
-            send_server(message,keys)
-        }
+        // else if(check == "go room")
+        // {
+        //     keys="goRoom"
+
+        //     message = "กำลังไปห้อง " + message 
+        //     box(message)
+        //     console.log(`POST go room ${message},status : `)
+        //     send_server(message,keys)
+        // }
         else if(check == "motor status")
         {
-
             keys="motorStatus"
-            if (button_go_room_1 == "0"){
-                button_go_room_1 = 1
-            }
-            else {
-                button_go_room_1 = 0
-            }
             message = "หยุดทำงาน"
             box(message)
             console.log(`POST motor ,status : ${message}`)
-            send_server(message,keys)
+            send_server(0,keys)
         }
         check = ""
         console.log("end check : " +check)     
