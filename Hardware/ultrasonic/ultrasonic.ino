@@ -1,5 +1,5 @@
-#define trigger_pin 7
-#define in_pin 6
+#define trigger_pin 2
+#define in_pin 3
 long duration, cm;
 
 long microsecondsToCentimeters( long microseconds)
@@ -23,6 +23,7 @@ void loop() {
   digitalWrite(trigger_pin, LOW);
   duration = pulseIn(in_pin, HIGH);
   cm = microsecondsToCentimeters(duration);
-  Serial.println(cm);
+  Serial.print(cm);
+  Serial.println(" cm.");
   delay(500);
 }

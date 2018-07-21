@@ -17,13 +17,13 @@ SoftwareSerial se_write(10, 11); // read only
 ///////////////////////////////
 ///////////////////////////////
 struct ProjectData {
+  float humid;
   int32_t sw;
   int32_t led_Y;
   int32_t led_B;
   int32_t led_W;
-  float humid;
   int32_t light;
-} project_data = { -1, -1, -1 , -1, -1, -1};
+} project_data = { 0, 0, 0 , 0, 0, 0};
 
 struct ServerData {
   int32_t swPressed;
@@ -31,7 +31,7 @@ struct ServerData {
   int32_t lightIn;
   int32_t lightOut;
   int32_t doorOn;
-} server_data = { -1, -1, -1, -1, -1};
+} server_data = { 0, 0, 0 , 0, 0};
 
 const char GET_SERVER_DATA = 1;
 const char GET_SERVER_DATA_RESULT = 2;
@@ -93,6 +93,7 @@ void send_to_nodemcu(char code, void *data, char data_size) {
   char sent_size = 0;
   while (se_write.write(code) == 0) {
     delay(1);
+    
   }
   while (sent_size < data_size) {
     sent_size += se_write.write(b, data_size);
@@ -134,6 +135,7 @@ char buffer[256];
 int8_t cur_buffer_length = -1;
 int32_t b = -1;
 void loop() {
+  Serial.println("LOOP");
   delay(500);
   uint32_t cur_time = millis();
   //read from sensor....
@@ -160,18 +162,25 @@ void loop() {
   else{
     digitalWrite(LED,LOW);
   }*/
-  
+  Serial.print("SizeS: ");
+  Serial.println(sizeof(ServerData));
+  Serial.print("SizeP: ");
+  Serial.println(sizeof(ProjectData));
   if (cur_time - last_sent_time > 500) {//always update
 //    Serial.println(project_data.plus);
     send_to_nodemcu(GET_SERVER_DATA, &server_data, sizeof(ServerData));
-    send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ServerData));
+    send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
+    Serial.println("SEND");
     last_sent_time = cur_time;
+    
   }
   //send to nodemcu
-  
+  Serial.println("Start Reading");
   //read data from server pass by nodemcu
   while (se_read.available()) {
     char ch = se_read.read();
+    Serial.println("Reading success!!!!!!!!!!!");
+    //Serial.println("Serial read");
     Serial.print("RECV: ");
     Serial.println((byte)ch);
     if (cur_buffer_length == -1) {
@@ -193,14 +202,14 @@ void loop() {
             Serial.print("SW: ");
             Serial.println(data->swPressed);
             //Serial.println(server_data.swPressed);
-            if(project_data.sw == 0) {
+            if(data -> swPressed == 0) {
               //playSong();
               /*tone(BUZZER, 2000);
               delay(500);
               noTone(BUZZER);
               Serial.print("Buzzer: ON ");
               */
-              ringOn();
+              digitalWrite(LED_Y, HIGH);
             }
             else if(project_data.sw == 1) {
               Serial.print("Buzzer: OFF ");

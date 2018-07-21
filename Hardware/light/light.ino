@@ -1,11 +1,11 @@
-#define ldr A0
-#define LED 5
+#define ldr A5
+//#define LED 5
 
 int ldrValue = 0;
 void setup() {
   // put your setup code here, to run once:
   pinMode(ldr, INPUT);
-  pinMode(LED, OUTPUT);
+//  pinMode(LED, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -15,10 +15,10 @@ void loop() {
   Serial.print("ldrValue: ");
   Serial.println(ldrValue);
   delay(300);
-  if(ldrValue <= 50) {
-    digitalWrite(LED, HIGH);
-  }
-  else {
-    digitalWrite(LED, LOW);
-  }
+//  if(ldrValue <= 50) {
+//    digitalWrite(LED, HIGH);
+//  }
+//  else {
+//    digitalWrite(LED, LOW);
+//  }
 }
