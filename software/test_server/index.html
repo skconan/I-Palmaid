@@ -8,18 +8,49 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <title>Test server</title>
+    <style>
+    .borders{
+      border-style: inset;
+      border-width: 7px;
+      border-color:black;
+    }
+    #box {
+      height: 700px;
+      width: 800px;
+      background-color:#FFFFFF;
+      overflow-y: auto; /* showing scrollbars */
+    }
+    </style>
   </head>
 
   <body>
     <h1 align="center">Test Server</h1>
     <br>
+    <div class="container-fluid">
+      <div class="row">
+      <div class="col-4">
     <input type="text" class="form-control" id="text-input" placeholder="...">
     <div class="my-1">
-      <button id="send" class="btn btn-primary">send</button>
       <button id="push" class="btn btn-primary">push</button>
       <button id="stop" class="btn btn-primary">Stop</button>
     </div>
-  
+    <div class="my-1">
+      <h2>server : </h2>
+      <button id="switch" class="btn btn-primary">switch</button>
+      <button id="go_room" class="btn btn-primary">go room</button>
+      <button id="motor" class="btn btn-primary">motor</button>  
+    </div>
+  </div>
+  <div class="col-8">
+    <div class="borders">
+      <div id="box">
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+    
+    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
