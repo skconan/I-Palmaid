@@ -1,0 +1,29 @@
+.weatherLocation{
+    font-size: 25;
+    /* font-weight: bold; */
+}
+
+#mid{
+    margin-top: 1.5%;
+}
+
+#head{
+    font-size: 25;
+    font-family: Courier New, Courier, monospace;
+}
+
+.tabletop5{
+    font-size: 40;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.weatherLocation{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.background{
+    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+    
+  }
+body{
+  background-color: #E5ECF4 !important;
+}
