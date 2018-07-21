@@ -1,6 +1,8 @@
 #include <SoftwareSerial.h>
 #include <Servo.h>
+#include <Stepper.h>
 #include "DHT.h"
+
 #define SW 2
 #define BUZZER 3
 #define LED_Y 4
@@ -14,6 +16,16 @@
 Servo myservo;
 SoftwareSerial se_read(12, 13); // write only
 SoftwareSerial se_write(10, 11); // read only
+
+const int stepsPerRevolution = 250;
+//Forward
+Stepper forward(stepsPerRevolution, 7,3, 9,8);
+//Backward
+Stepper backward(stepsPerRevolution, 3,7, 8,9);
+//Right
+Stepper right(stepsPerRevolution, 7,3, 8,9);
+//Left
+Stepper left(stepsPerRevolution, 3,7, 9,8);
 
 long duration, cm;
 
@@ -30,7 +42,10 @@ struct ProjectData {
   int32_t light;
   int32_t motor;
   int32_t ultrasonic;
-} project_data = { 0, 0, 0 , 0};
+  int32_t curRoom;
+//  int32_t isRobotOnSensors;
+//  int32_t isRobotOnRoom;
+} project_data = { 0, 0, 0 , 0, 0};
 
 struct ServerData {
   int32_t switchStatus;
@@ -41,24 +56,6 @@ struct ServerData {
 const char GET_SERVER_DATA = 1;
 const char GET_SERVER_DATA_RESULT = 2;
 const char UPDATE_PROJECT_DATA = 3;
-
-void ringOn(){
-  tone(BUZZER, 2000);
-  delay(500);
-  noTone(BUZZER);
-  delay(500);
-  tone(BUZZER, 2000);
-  delay(200);
-  noTone(BUZZER);
-  delay(200);
-  tone(BUZZER, 2000);
-  delay(200);
-  noTone(BUZZER);
-  delay(200);
-  tone(BUZZER, 2000);
-  delay(200);
-  noTone(BUZZER);
-}
 
 void send_to_nodemcu(char code, void *data, char data_size) {
   char *b = (char*)data; 
@@ -86,7 +83,11 @@ void setup() {
   myservo.attach(servo);
   myservo.write(0);
   dht.begin();
-  
+  //////<--Motor-->///////
+  forward.setSpeed(60);
+  backward.setSpeed(60);
+  left.setSpeed(60);
+  ///////////////////////
   Serial.begin(115200);
   se_read.begin(38400);
   se_write.begin(38400);
@@ -98,7 +99,7 @@ void setup() {
   Serial.println((int)sizeof(ServerData));
   Serial.println("ARDUINO READY!");
 }
-
+uint32_t lastRobotTime = 0;
 uint32_t last_sent_time = 0;
 boolean is_data_header = false;
 char expected_data_size = 0;
@@ -110,7 +111,7 @@ int32_t b = -1;
 void loop() {
 //  Serial.println("LOOP");
   delay(500);
-  uint32_t cur_time = millis();
+uint32_t cur_time = millis();
   //read from sensor....
   Serial.println("\n############## Project Data ################");
   int a = digitalRead(SW); /////////SWITCH
@@ -184,10 +185,43 @@ void loop() {
           case GET_SERVER_DATA_RESULT: {
             ServerData *data = (ServerData*)buffer;
             //use data to control sensor
-            Serial.print("SW from Node: ");
-            Serial.println(data->switchStatus);
-            //Serial.println(server_data.switchStatus);
+            Serial.println("<-------Server Data-------->");
+//            Serial.print("SW from Node: ");
+//            Serial.println(data->switchStatus);
+            Serial.print("Motor Status: ");
+            Serial.println(project_data.motor);
+            Serial.print("curRoom --> goRoom: ");
+            Serial.print(project_data.curRoom);
+            Serial.print(" ---> ");
+            Serial.print(data -> goRoom);
             
+            //Serial.println(server_data.switchStatus);
+//            project_data.motor = data -> motorStatus;//////////////Read from Server
+            if(project_data.sw == 0) {
+              project_data.motor = 1;
+            }
+            if(project_data.motor == 1){
+              Serial.println("Forward");
+               forward.step(stepsPerRevolution);
+//              if(project_data.curRoom < data -> goRoom) {
+//                //Motor Forward
+//              }
+//              else if(project_data.curRoom > data -> goRoom) {
+//                //Motor Back
+//              }
+//
+//              else { //curRoom == goRoom
+//                //Motor off
+//                project_data.motor = 0;
+//                
+//              }
+              
+            }
+            else if(project_data.motor == 0) {
+              //Motor Off
+                Serial.println("Backward");
+                backward.step(stepsPerRevolution);
+            }
             if(data -> switchStatus == 0) {
               digitalWrite(LED_Y, HIGH);
             }
@@ -195,10 +229,21 @@ void loop() {
               digitalWrite(LED_Y, LOW);
             }
 
-            if(project_data.light < 200) {
-              //STOP MOTOR
+            if(project_data.light < 300 and project_data.motor == 1) {  //sensors check robot walk throught
+              uint32_t curShadowOnLdr = millis();
+              if(curShadowOnLdr - lastRobotTime > 2000) { //ทับแถบดำนาน 1
+                Serial.print("<!!!!!!!!!On black!!!!!!!!!!>");
+                lastRobotTime = curShadowOnLdr;
+              }
+              else {
+                Serial.print("<-------CurRoom + 1 ------->");
+                project_data.curRoom += 1;
+                uint32_t curShadowOnLdr = 0;
+                project_data.motor = 0;
+                //send onDoor to server
+              }
             }
-
+                        
             if(project_data.ultrasonic < 10) {
               //STOP MOTOR
             }

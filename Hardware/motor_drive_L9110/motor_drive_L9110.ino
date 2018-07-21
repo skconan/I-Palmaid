@@ -21,25 +21,39 @@ const int stepsPerRevolution = 250;  // change this to fit the number of steps p
 // for your motor
 
 // initialize the stepper library on pins 8 through 11:
-Stepper myStepper(stepsPerRevolution, 8,9, 8,9);
-Stepper myStepper1(stepsPerRevolution, 9,8, 9,8);
+//Forward
+// 7 > B1-A, 3 > B1-B, 9 > A1-A, 8 > A1-B
+Stepper forward(stepsPerRevolution, 7,3, 9,8);
+//Backward
+Stepper backward(stepsPerRevolution, 3,7, 8,9);
+//Right
+Stepper left(stepsPerRevolution, 7,3, 8,9);
+//Left
+Stepper left(stepsPerRevolution, 3,7, 9,8);
+
 void setup() {
   // set the speed at 60 rpm:
-  myStepper.setSpeed(60);
-myStepper1.setSpeed(60);
+  forward.setSpeed(60);
+  backward.setSpeed(60);
+  left.setSpeed(60);
+//myStepper1.setSpeed(60);
   // initialize the serial port:
   Serial.begin(115200);
 }
 
 void loop() {
   // step one revolution  in one direction:
-  Serial.println("clockwise");
-  myStepper.step(stepsPerRevolution);
-  delay(500);
+  Serial.println("Forward");
+  forward.step(stepsPerRevolution);
+  delay(1500);
 
   // step one revolution in the other direction:
-  Serial.println("counterclockwise");
-  myStepper1.step(stepsPerRevolution);
-  delay(500);
+  Serial.println("Backward");
+  backward.step(stepsPerRevolution);
+  delay(1500);
+
+  Serial.println("Left");
+  left.step(stepsPerRevolution);
+  delay(1500);
 }
 
