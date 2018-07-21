@@ -10,3 +10,18 @@ function myFunction() {
     navbar.classList.remove("sticky");
   }
 }
+
+function myMove() {
+    var elem = document.getElementById("myAnimation");   
+    var pos = 350;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (pos == 1050) {
+        clearInterval(id);
+      } else {
+        pos++; 
+       
+        elem.style.left = pos + 'px'; 
+      }
+    }
+  }

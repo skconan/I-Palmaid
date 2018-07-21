@@ -75,3 +75,11 @@ body {
  .alert-heading{
      margin-left:100px;
  }
+#myAnimation {
+  position: absolute;
+  top: 370px; left: 300px; z-index: 3;
+}
+
+.imgMap { position:relative; top: 0px; left: 0px; z-index: 1; } 
+
+#myContainer { position:relative}
