@@ -10,6 +10,8 @@ void setup() {
   pinMode(ls, INPUT);
 //  pinMode(LED, OUTPUT);
   Serial.begin(9600);
+  pinMode(trigger_pin, OUTPUT);
+  pinMode(in_pin, INPUT);
 }
 
 void loop() {

@@ -4,38 +4,66 @@
 #include "DHT.h"
 
 #define SW 2
-#define BUZZER 3
-#define LED_Y 4
-#define servo 7
-#define DHTPIN A1
-#define DHTTYPE DHT22
 #define ldr A0
-#define trigger_pin 5
-#define in_pin 6
-const int steps = 48;
+#define trigger_pin 6
+#define in_pin 5
+
 Servo myservo;
 SoftwareSerial se_read(12, 13); // write only
 SoftwareSerial se_write(10, 11); // read only
 
-const int stepsPerRevolution = 250;
+///////////////////////////////////////////////////////////
+const int steps = 48;
 //Forward
-Stepper backward(stepsPerRevolution, 7,3, 8,9);
-//Backward
-Stepper forward(stepsPerRevolution, 3,7, 9,8);
+Stepper forward(steps, 3,7, 8,9);
+//Backward L H L H
+Stepper backward(steps, 7,3, 9,8);
 //Right
-Stepper right(stepsPerRevolution, 7,3, 9,8);
+Stepper right(steps, 7,3, 8,9);
 //Left
-Stepper left(stepsPerRevolution, 3,7, 8,9);
+Stepper left(steps, 3,7, 9,8);
 
 //Stepper motorstop(1, 3, 7, 9, 8);
 void set_speed_motor(){
 //  motor speed in rotations per minute (RPMs)
   uint32_t rpm = 200;
   forward.setSpeed(rpm);
-//  backward.setSpeed(rpm);
-//  left.setSpeed(rpm);
+  backward.setSpeed(rpm);
+  right.setSpeed(rpm);
 }
-
+void robot_forward(){
+  Serial.println("Forward");
+  forward.step(steps);
+  delay(500);
+  Serial.println("End Forward");
+}
+void robot_backward(){
+  Serial.println("Backward");
+  backward.step(steps);
+  delay(500);
+  Serial.println("End Backward");
+}
+void robot_right(){
+  Serial.println("Right");
+  right.step(steps);
+  delay(500);
+  Serial.println("End Right");
+}
+void robot_left(){
+  Serial.println("Left");
+  left.step(steps);
+  delay(500);
+  Serial.println("End Left");
+}
+void robot_stop(){
+  Serial.println("Robot Stop");
+  digitalWrite(8,LOW);
+  digitalWrite(9,HIGH);
+  digitalWrite(3,LOW);
+  digitalWrite(7,HIGH);
+  delay(500);
+}
+//////////////////////////////////////////////////
 long duration, cm;
 
 long microsecondsToCentimeters( long microseconds)
@@ -79,19 +107,11 @@ void send_to_nodemcu(char code, void *data, char data_size) {
   }
 }
 
-DHT dht(DHTPIN, DHTTYPE);
-
 void setup() {
   // put your setup code here, to run once:
   pinMode(SW, INPUT);
-  pinMode(BUZZER, OUTPUT);
-  pinMode(LED_Y, OUTPUT);
-  pinMode(ldr, INPUT);
   pinMode(trigger_pin, OUTPUT);
   pinMode(in_pin, INPUT);
-  myservo.attach(servo);
-  myservo.write(0);
-  dht.begin();
   //////<--Motor-->///////
     set_speed_motor();
 //  forward.setSpeed(60);
@@ -120,7 +140,7 @@ int8_t cur_buffer_length = -1;
 int32_t b = -1;
 
 void loop() {
-//  motor = project_data.motor;
+  project_data.motor = motor;
 //  Serial.println("LOOP");
   delay(500);
   uint32_t cur_time = millis();
@@ -169,7 +189,7 @@ void loop() {
     send_to_nodemcu(GET_SERVER_DATA, &server_data, sizeof(ServerData));
     send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
     Serial.println("SEND TO NODE");
-//    Serial.println(project_data.motor);
+    Serial.println(project_data.motor);
     last_sent_time = cur_time;
     
   }
@@ -209,6 +229,7 @@ void loop() {
             Serial.print(project_data.curRoom);
             Serial.print(" ---> ");
             Serial.println(data -> goRoom);
+            
             project_data.motor = data -> motorStatus;
             //Serial.println(server_data.switchStatus);
 //            project_data.motor = data -> motorStatus;//////////////Read from Server
@@ -218,40 +239,32 @@ void loop() {
 //            }
             if(project_data.motor == 1){
 //              project_data.motor = 1;
-              Serial.println("77777777777777777777777777777777777777777");
-              digitalWrite(8, 1);
-              digitalWrite(9, 1);
-              digitalWrite(3, 1);
-              digitalWrite(7, 1);
               Serial.println("Forward");
-              forward.step(steps);
+              robot_forward();
               
 //              if(project_data.curRoom < data -> goRoom) {
 //                //Motor Forward
 //                Serial.println("Forward");
-//                forward.step(steps);
+//                robot_forward();
 //              }
 //              else if(project_data.curRoom > data -> goRoom) {
 //                //Motor Back
-//                  Serial.println("Forward");
-//                  forward.step(-steps);
+//                Serial.println("backward");
+//                robot_backward();
 //              }
 //
 //              else { //curRoom == goRoom
 //                //Motor off
-//                project_data.motor = 0;
+//                  Serial.println("motorstop");
+//                robot_stop();
 //              }
               
             }
             else if(project_data.motor == 0) {
               //Motor Off
-                
+                robot_stop();
                 Serial.println("motorstop");
-                digitalWrite(8, 0);
-                digitalWrite(9, 0);
-                digitalWrite(3, 0);
-                digitalWrite(7, 0);
-                delay(500);
+//                delay(200);
 //                backward.step(stepsPerRevolution);
             }
 
@@ -272,15 +285,16 @@ void loop() {
 //              }
 //            }
                         
-//            if(project_data.ultrasonic < 10 and project_data.motor == 1) {
-//              //STOP MOTOR
-//              Serial.println("Ultrasonic Enable!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//              project_data.motor = 0;
-//            }
-//            else if(project_data.ultrasonic > 10 and project_data.motor == 0) {
-//              //STOP MOTOR
-//              Serial.println("Ultrasonic Unable");
-//              projectiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii_data.motor = 1;
+            if(project_data.ultrasonic < 10 and project_data.motor == 1) {
+              //STOP MOTOR
+              Serial.println("Ultrasonic Enable!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+              project_data.motor = 0;
+            }
+            else if(project_data.ultrasonic > 10 and project_data.motor == 0) {
+              //STOP MOTOR
+              Serial.println("Ultrasonic Unable");
+              project_data.motor = 1;
+            }
 //            uint32_t curDataTime = millis();
 //            if (curDataTime - lastTime > 500) {
 //                send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
@@ -289,7 +303,6 @@ void loop() {
 //              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
 //            }
             
-            //server_data.plus = data->plus;
 //            send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
             Serial.println("UPDATE");
           } break;
@@ -298,6 +311,6 @@ void loop() {
       }
     }
   }
-//  motor = project_data.motor;
+  motor = project_data.motor;
 }
 
