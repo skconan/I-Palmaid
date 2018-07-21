@@ -90,7 +90,7 @@ struct ServerData {
   int32_t switchStatus;
   int32_t motorStatus;
   int32_t goRoom;
-} server_data = { 0, 0, 0};
+} server_data = { 0, 0, 0, 0};
 
 const char GET_SERVER_DATA = 1;
 const char GET_SERVER_DATA_RESULT = 2;
@@ -288,7 +288,7 @@ void loop() {
 //              }
 //            }
 //            if(data -> sonicStatus < 10) {         
-            if(cm < 10) {
+            if(cm < 25) {
               //STOP MOTOR
               Serial.print(project_data.ultrasonic);
               Serial.println("Ultrasonic Enable!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
