@@ -22,6 +22,7 @@ const int stepsPerRevolution = 250;  // change this to fit the number of steps p
 
 // initialize the stepper library on pins 8 through 11:
 //Forward
+// 7 > B1-A, 3 > B1-B, 9 > A1-A, 8 > A1-B
 Stepper forward(stepsPerRevolution, 7,3, 9,8);
 //Backward
 Stepper backward(stepsPerRevolution, 3,7, 8,9);
