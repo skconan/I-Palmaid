@@ -1,6 +1,3 @@
-var button_go_room_1 = 0
-var button_back_laundry = 0
-
 var msg = ["switch","go room","motor status"]
 var address = ["switchStatus","goRoom","motorStatus"]
 var finish_room = false
@@ -24,7 +21,7 @@ $(function(){
                 check = msg
                 recieve = response
             } 
-        },
+        },timeout: 5000,
         fail: function(response){
             console.log(response) 
         }
@@ -48,22 +45,25 @@ $(function(){
         keys = "goRoom" 
         message = 1
         send_server(1,keys)
+        console.log(keys)
         box("กำลังไปห้องเบอร์ 1")
     })
     $('#back_laundry').on('click',function(){
         keys = "goRoom"
         message = 0
         send_server(0,keys)
+        console.log(keys)
         box("กำลังไปห้องซักรีด")
     })
     $('#stop').on('click',function(){
         keys = "motorStatus"
         message = 0
         send_server(0,keys)
+        console.log(keys)
         box("หยุดทำงาน")
     })
     var box = function(status){
-    $('#box_status').html(`สถานะ : <p>${status}</p>`)
+    $('#box_status').html(`สถานะ : ${status}`)
     }
     var i = 0
     var first_time =true

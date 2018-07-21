@@ -58,6 +58,50 @@ $(function(){
         },5000)
     })
 
+    $(`#get`).on('click',function(){
+        console.log("get accept")
+        timeId = setInterval(function(){
+            $.ajax({
+                type: "GET",
+                url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-switchStatus/view",
+                dataType: "text",
+                success: function (response) {
+                    console.log("recieve")   
+                    $('#box').append(`<div align=right> <p> switch server status : ${response} </p></div><hr>`)  
+                }, timeout: 5000,
+                fail: function(response){
+                    console.log(response)
+                }
+                });
+            $.ajax({
+                type: "GET",
+                url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-motorStatus/view",
+                dataType: "text",
+                success: function (response) {
+                    console.log("recieve")   
+                    $('#box').append(`<div align=right> <p> motor server status : ${response} </p></div><hr>`)
+                }, timeout: 5000,
+                fail: function(response){
+                    console.log(response)
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-goRoom/view",
+                dataType: "text",
+                success: function (response) {
+                    console.log("recieve")
+                    $('#box').append(`<div align=right> <p> go room server status : ${response} </p></div><hr>`)   
+                }, timeout: 5000,
+                fail: function(response){
+                    console.log(response)
+                }
+            });
+
+        },5000)
+    })
+
+
     // $('#response').on('click',function(){
     // })
 
