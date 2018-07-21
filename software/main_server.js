@@ -1,5 +1,5 @@
 var button_switch_status = 1
-var button_air_status = 0
+var button_go_room = 0
 var button_light_in_status = 0
 var button_light_out_status = 0
 var button_door_status = 0
