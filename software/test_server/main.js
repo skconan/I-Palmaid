@@ -11,7 +11,7 @@ $(function(){
         },
         dataType: "text",
         success: function (response) {
-            $('#box').append(`<div align=left> <p> status : ${a} </p></div><hr>`)
+            $('#box').append(`<div align=left> <p>my ${add} : ${a} </p></div><hr>`)
             console.log(response)
             console.log("success post " + a)
             $('#text-input').val('')
@@ -31,7 +31,7 @@ $(function(){
                 success: function (response) {
                     console.log("recieve")   
                     console.log(response)
-                    $('#box').append(`<div align=right> <p> status : ${response} </p></div><hr>`)
+                    $('#box').append(`<div align=right> <p> server status : ${response} </p></div><hr>`)
                     if (recieve != response){
                     recieve = response
                     $.ajax({

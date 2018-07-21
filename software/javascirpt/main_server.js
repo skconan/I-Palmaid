@@ -6,18 +6,25 @@ var address = ["switchStatus","goRoom","motorStatus"]
 var finish_room = false
 
 $(function(){
-    var check="";
+    var message =""
+    var post =""
+    var recieve = ""
+    var check=""
+    var first_time =true
+
+    
     var recieve_server =function(address,msg){
         $.ajax({
         type: "GET",
         url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-"+address+"/view",
         dataType: "text",
         success: function (response) {
-            console.log("get "+ msg)
-            console.log(response)
-            if (response !=""){
-            check = msg
-        } 
+            if (recieve != response && post != response){
+                console.log("get "+ msg)
+                console.log(response)    
+                check = msg
+                recieve = response
+            } 
         },
         fail: function(response){
             console.log(response) 
@@ -32,40 +39,58 @@ $(function(){
             },
             dataType: "text",
             success: function (response) {
+                post = message
                 console.log(response)
             }
         });
     }
     $('#go_room_1').on('click',function(){
-        check = "go room" 
+        keys = "goRoom" 
         message = 1
+        send_server(message,keys)
+        box("กำลังไปห้องเบอร์ 1")
     })
     $('#back_laundry').on('click',function(){
-        check = "back laundry"
+        keys = "backLaundry"
         message = 0
+        send_server(message,keys)
+        box("กำลังไปห้องซักรีด")
     })
     $('#stop').on('click',function(){
-        check = "motor status"
+        keys = "motorStatus"
         message = 0
+        send_server(message,keys)
+        box("หยุดทำงาน")
     })
     var box = function(status){
-    $('#box_status').html(`สถานะ : <h1>${status}</h1>`)
+    $('#box_status').html(`สถานะ : <p>${status}</p>`)
     }
+    var i = 0
     setInterval(function(){ 
         let status = ""
-        let i = 0
+        
         console.log("before loop "+ check )
+      
+        ////reset value on server
+
+        if (first_time==true){
+            while (i < 3) {
+                send_server("",address[i])
+            }
+            first_time = false
+            console.log("reset value")
+        }   
+
         while (i < 3) {
+            console.log("in refresh "+ check )
+            console.log("end check server")
             if (check ==""){
-                recieve_server(address[i],msg[i])         
+                recieve_server(address[i],msg[i])       
             }
             i++;
         }
-        console.log("in refresh "+ check )
-        console.log("end check server")
-
         let keys = ""
- 
+        
         if(check == "switch"){
             keys= "switchStatus"
             message = "ทำงานเสร็จ"
@@ -81,8 +106,8 @@ $(function(){
             else {
                 button_go_room_1 = 0
             }
-            message = "กำลังไปห้อง " + massage 
-            box(massage)
+            message = "กำลังไปห้อง " + message 
+            box(message)
             console.log(`POST go room ${message},status : ${button_go_room_1}`)
             send_server(message,keys)
         }
@@ -96,10 +121,12 @@ $(function(){
             else {
                 button_go_room_1 = 0
             }
-            massage = "หยุดทำงาน"
-            box(massage)
+            message = "หยุดทำงาน"
+            box(message)
             console.log(`POST motor ,status : ${message}`)
             send_server(message,keys)
         }
-    })
+        check = ""
+        console.log("end check : " +check)     
+    },5000)
 })
