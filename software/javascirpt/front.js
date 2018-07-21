@@ -3,38 +3,7 @@ var tempArrayTime = [];
 var tempArrayRoom = [];
 var pos = 370;
 var stop = false;
-
-function init() {
-  // localStorage.date = ["20/7/2018", "21/7/2018"];
-  // localStorage.time = ["10:00", "9:00"];
-  // localStorage.room = ["A1", "A1"];
-
-  let dateTemp = localStorage.getItem("date");
-  let timeTemp = localStorage.getItem("time");
-  let roomTemp = localStorage.getItem("room");
-
-  let date = dateTemp.split(",");
-  let time = timeTemp.split(",");
-  let room = roomTemp.split(",");
-  
-
-  console.log(date.length)
-
-  for (let i = 0; i < date.length; i++) {
-    $("#history").append(
-      `<tr>
-      <td>${date[i]}</td>
-      <td>${time[i]}</td>
-      <td>${room[i]}</td>
-      </tr>`
-    );
-    console.log(date[i])
-  }
-
-}
-
-init();
-
+var id;
 window.onscroll = function () { myFunction() };
 
 var navbar = document.getElementById("navbar");
@@ -48,11 +17,42 @@ function myFunction() {
   }
 }
 
+
+function init() {
+  // localStorage.date = ["20/7/2018", "21/7/2018"];
+  // localStorage.time = ["10:00", "9:00"];
+  // localStorage.room = ["A1", "A1"];
+
+  let dateTemp = localStorage.getItem("date");
+  let timeTemp = localStorage.getItem("time");
+  let roomTemp = localStorage.getItem("room");
+
+  if (dateTemp !== null) {
+    let date = dateTemp.split(",");
+    let time = timeTemp.split(",");
+    let room = roomTemp.split(",");
+
+    for (let i = 0; i < date.length; i++) {
+      $("#history").append(
+        `<tr>
+      <td>${date[i]}</td>
+      <td>${time[i]}</td>
+      <td>${room[i]}</td>
+      </tr>`
+      );
+      console.log(date[i])
+    }
+  }
+}
+
+init();
+
 function myMove() {
+  clearInterval(id);
+  stop = false
   var elem = document.getElementById("myAnimation");
-  var id = setInterval(frame, 1);
+  id = setInterval(frame, 1);
   function frame() {
-    console.log(stop)
     if (pos == 1050 || stop == true) {
       clearInterval(id);
       stop = false
@@ -66,10 +66,11 @@ function myMove() {
 
 
 function myBack() {
+  clearInterval(id);
+  stop = false
   var elem = document.getElementById("myAnimation");
-  var id = setInterval(frame, 1);
+  id = setInterval(frame, 1);
   function frame() {
-    console.log(stop)
     if (pos == 370 || stop == true) {
       clearInterval(id);
       stop = false

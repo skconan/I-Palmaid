@@ -16,22 +16,16 @@
 
 <body>
 
-    <div class="header">
+    <div class="header" id="1">
         <h1>I-PLAMAID</h1>
         <p>Intelligent Robot for your easy life</p>
     </div>
-
     <div id="navbar">
-        <a class="active" href="#box_status">
-            <h3>ควบคุม</h3>
-        </a>
-        <a href="#myContainer">
-            <h3>แผนผัง</h3>
-        </a>
-        <a href="#history">
-            <h3>ประวัติ</h3>
-        </a>
+        <a class="active" href="#1"><h3>ควบคุม</h3></a>
+        <a href="#stop"><h3>แผนผัง</h3></a>
+        <a href="#history"><h3>ประวัติ</h3></a>
     </div>
+
     <br>
     <br>
     <div align="center">
@@ -40,28 +34,27 @@
         </div>
         <br>
 
-        <button id="back_laundry" type="button" class="btn btn-danger btn-xlarge" onclick="myBack()">
+        <a href="#stop"><button id="back_laundry" type="button" class="btn btn-danger btn-xlarge" onclick="myBack()">
             <h1>ห้องซักรีด</h1>
-        </button>
-        <button id="go_room_1" type="button" class="btn btn-info btn-xlarge" onclick="myMove()">
+        </button></a>
+        <a href="#stop"><button id="go_room_1" type="button" class="btn btn-info btn-xlarge" onclick="myMove()">
             <h1>ห้อง A1</h1>
-        </button>
+        </button></a>
         <br>
         <br>
-        <button id="stop" type="button" class="btn btn-secondary">
+        <button id="stop" type="button" class="btn btn-secondary"  onclick="stopRobot()">
             <h3>หยุดการใช้งาน</h3>
         </button>
     </div>
     </div>
     <br>
-    <div id="myContainer" align="center">
+    <div id="myContainer" align="center" class="imgbox">
         <img class="imgMap" src="./img/map.png">
-        <div id="myAnimation">
-            <img src="./img/Circle.png">
+        <div id="myAnimation" class="imgbox ">
+            <img src="./img/Circle.png" class="center-fit imgMap">
         </div>
     </div>
-    <br>
-    <br>
+
     <div align="center">
         <h1>ประวัติ</h1>
         <table id="history">
@@ -91,7 +84,7 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
         crossorigin="anonymous"></script>
-    <script src="./javascirpt/front.js"></script>
+    <script src="./javascirpt/front.js"></script>    
 </body>
 
 </html>
