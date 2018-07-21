@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    font-size: 28px;
+  }
+  
+  .header {
+    background-color: #efff9c;
+    padding: 30px;
+    text-align: center;
+  }
+  
+  #navbar {
+    overflow: hidden;
+    background-color:	#caeebf;
+  }
+  
+  #navbar a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  #navbar a:hover {
+    background-color: #89b9a9;
+    color: white;
+  }
+  
+  #navbar a.active {
+    background-color:	#9fdbc7;
+    color: black;
+  }
+  
+  .content {
+    padding: 16px;
+  }
+  
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  
+  .sticky + .content {
+    padding-top: 60px;
+  }
+
+
+  #go_room_1,
+  #back_laundry{
+    text-align: center;
+    text-decoration: none;
+    margin-right: 80px;
+    margin-left: 60px; 
+  }
+
+  .btn-xlarge {
+    padding: 50px 50px;
+    font-size: 40px; 
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+}
+
+#alert-size{
+    width: 900px;
+    height: 100px;
+    padding: 28px 0;
+ }
+
+ .alert-heading{
+     margin-left:100px;
+ }
