@@ -16,14 +16,11 @@ function myFunction() {
 
 function myMove() {
     var elem = document.getElementById("myAnimation");   
-<<<<<<< HEAD
-    var id = setInterval(frame, 1);
-=======
+    // var id = setInterval(frame, 1);
     var pos = 300;
     var id = setInterval(frame, 10);
->>>>>>> e5bca88d17210e5799923630ca57f43fa3592b92
     function frame() {
-      console.log(stop)
+      // console.log(stop)
       if (pos == 1050 || stop == true) {
         clearInterval(id);
         stop = false
@@ -40,7 +37,7 @@ function myMove() {
     var elem = document.getElementById("myAnimation");   
     var id = setInterval(frame, 1);
     function frame() {
-      console.log(stop)
+      // console.log(stop)
       if (pos == 370 || stop == true) {
         clearInterval(id);
         stop = false

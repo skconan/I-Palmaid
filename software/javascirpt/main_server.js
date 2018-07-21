@@ -1,27 +1,43 @@
-var msg = ["switch","go room","motor status"]
-var address = ["switchStatus","goRoom","motorStatus"]
+var msg = ["switch","go room","motor status","current room"]  //switch motor
+var address = ["switchStatus","goRoom","motorStatus","curRoom"]
 var finish_room = false
+// var recieve = ""
+var check=""
 
 $(function(){
     var message =""
     var post =""
-    var recieve = ""
-    var check=""
-
+    var cur_room=""
+    var add_now =""
+    var add_old =""
+    var value_now =""
+    var value_old =""
     
-    var recieve_server =function(address,msg){
+    var recieve_server =function(add,msg){
+        add_now = add
         $.ajax({
         type: "GET",
-        url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-"+address+"/view",
+        url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-"+add_now+"/view",
         dataType: "text",
         success: function (response) {
-            if (recieve != response && post != response){
+            console.log("recieve"+ add_now)
+            if (add_old != add_now && post != response){
                 console.log("get "+ msg)
-                console.log(response)    
+                console.log("response" + response)                   
                 check = msg
-                recieve = response
-            } 
-        },timeout: 5000,
+                value_now = response
+                cur_room = value_now
+                add_old = add_now
+            }
+            else if(value_now != value_old){
+                console.log("get "+ msg)
+                console.log("response" + response)    
+                check = msg
+                cur_room = value_now
+                add_old = add_now
+            }
+        },
+        // timeout: 5000,
         fail: function(response){
             console.log(response) 
         }
@@ -35,71 +51,76 @@ $(function(){
             },
             dataType: "text",
             success: function (response) {
-                // post = message
+                post = message
                 console.log(response)
-                console.log("send complete")
+                console.log("send complete : "+message)
             }
         });
     }
     $('#go_room_1').on('click',function(){
         keys = "goRoom" 
         message = 1
-        send_server(1,keys)
+        send_server(1,"goRoom")
         console.log(keys)
-        box("กำลังไปห้องเบอร์ 1")
+        box("กำลังไปห้อง A1")
     })
     $('#back_laundry').on('click',function(){
         keys = "goRoom"
         message = 0
-        send_server(0,keys)
-        console.log(keys)
+        send_server(0,"goRoom")
+        console.log("backLaundry")
         box("กำลังไปห้องซักรีด")
     })
     $('#stop').on('click',function(){
         keys = "motorStatus"
         message = 0
-        send_server(0,keys)
+        send_server(0,"motorStatus")
         console.log(keys)
         box("หยุดทำงาน")
     })
     var box = function(status){
     $('#box_status').html(`สถานะ : ${status}`)
     }
-    var i = 0
     var first_time =true
     setInterval(function(){ 
         let status = ""
-        
-        console.log("before loop "+ check )
-      
-        ////reset value on server
-
-        if (first_time==true){
-            send_server(" ",address[0])
-            send_server(" ",address[1])
-            send_server(" ",address[2])
+        var i = 0       
+    
+        console.log("before loop "+ check)
+        if(first_time == true){
+            send_server("0","goRoom")
+            send_server("0","motorStatus")
+            send_server("0","switchStatus")
+            send_server("0","curRoom")
             first_time = false
-            console.log("reset value")
         }
-           
-
-        while(i < 3) {
+        while(i < 4) {
             console.log("in refresh "+ check )
             console.log("end check server")
             if (check ==""){
                 recieve_server(address[i],msg[i])       
             }
             i++;
+            // console.log("check "+check)
         }
+
+        console.log("add_old"+ add_old)
+        console.log("add_now"+add_now)
         let keys = ""
         
         if(check == "switch"){
-            keys= "goRoom"
-            message = "กลับห้อง"
-            box(message)
-            console.log("POST switch ,status : finish")
-            send_server(0,keys)
+            // if (first_time == false){  
+                message = "กลับห้อง"
+                box(message)
+                console.log("POST switch ,status : finish")
+                send_server(0,"goRoom")
+                send_server(1,"motorStatus")
+        //     }
+        // else{
+        //     first_time = false
+        // }
         }
+
         // else if(check == "go room")
         // {
         //     keys="goRoom"
@@ -109,15 +130,43 @@ $(function(){
         //     console.log(`POST go room ${message},status : `)
         //     send_server(message,keys)
         // }
-        else if(check == "motor status")
-        {
-            keys="motorStatus"
-            message = "หยุดทำงาน"
-            box(message)
-            console.log(`POST motor ,status : ${message}`)
-            send_server(0,keys)
+        
+        else if(check == "motor status"){
+            // if (first_time == false){  
+                keys="motorStatus"
+                message = "หยุดทำงาน"
+                box(message)
+                console.log(`POST motor ,status : ${message}`)
+                send_server(0,keys)
+            // }
+            // else{
+            //     first_time = false
+            // }
         }
+        
+        else if(check == "current room"){
+            // if (first_time == false){  
+                if (cur_room == "0"){
+                    message = "อยู่ที่ห้องซักรีด"
+                    box(message)
+                    console.log(`POST current room ,status : ${message}`)
+                } 
+                else if(cur_room =="1"){
+                    message = "อยู่ที่ห้อง A1"
+                    box(message)
+                    console.log(`POST current room ,status : ${message}`)        
+                } 
+            // }
+            // else{
+            //     first_time = false
+            // }
+            // recieve =""
+        }
+
+
+        // console.log("end check1 : " +check)     
         check = ""
-        console.log("end check : " +check)     
+        // console.log("end check2 : " +check)     
+
     },5000)
 })
