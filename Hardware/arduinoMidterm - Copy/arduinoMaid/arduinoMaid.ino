@@ -27,6 +27,7 @@ Stepper right(stepsPerRevolution, 7,3, 8,9);
 //Left
 Stepper left(stepsPerRevolution, 3,7, 9,8);
 
+//Stepper motorstop(1, 3, 7, 9, 8);
 long duration, cm;
 
 long microsecondsToCentimeters( long microseconds)
@@ -128,8 +129,8 @@ uint32_t cur_time = millis();
   Serial.println(" cm.");
   ////////////////////////////////////////
   project_data.sw = a; //set sw to project data
-  Serial.print("SW Send to Node: ");
-  Serial.println(project_data.sw);
+//  Serial.print("SW Send to Node: ");
+//  Serial.println(project_data.sw);
   project_data.light = analogRead(ldr); ////Light
   Serial.print("light :");
   Serial.println(project_data.light);
@@ -189,18 +190,21 @@ uint32_t cur_time = millis();
 //            Serial.print("SW from Node: ");
 //            Serial.println(data->switchStatus);
             Serial.print("Motor Status: ");
-            Serial.println(project_data.motor);
+//            Serial.println(project_data.sw);
+//            Serial.println(project_data.motor);
+            Serial.println(data -> motorStatus);
             Serial.print("curRoom --> goRoom: ");
             Serial.print(project_data.curRoom);
             Serial.print(" ---> ");
-            Serial.print(data -> goRoom);
+            Serial.println(data -> goRoom);
             
             //Serial.println(server_data.switchStatus);
 //            project_data.motor = data -> motorStatus;//////////////Read from Server
-            if(project_data.sw == 0) {
-              project_data.motor = 1;
-            }
-            if(project_data.motor == 1){
+
+//            if(project_data.sw == 0) {
+//              project_data.motor = 1;
+//            }
+            if(data -> motorStatus == 1){
               Serial.println("Forward");
                forward.step(stepsPerRevolution);
 //              if(project_data.curRoom < data -> goRoom) {
@@ -213,41 +217,42 @@ uint32_t cur_time = millis();
 //              else { //curRoom == goRoom
 //                //Motor off
 //                project_data.motor = 0;
-//                
 //              }
               
             }
-            else if(project_data.motor == 0) {
+            else if(data -> motorStatus == 0) {
               //Motor Off
-                Serial.println("Backward");
+                Serial.println("motorstop");
                 backward.step(stepsPerRevolution);
             }
-            if(data -> switchStatus == 0) {
-              digitalWrite(LED_Y, HIGH);
-            }
-            else if(data -> switchStatus != 0) {
-              digitalWrite(LED_Y, LOW);
-            }
+//            if(data -> switchStatus == 0) {
+//              digitalWrite(LED_Y, HIGH);
+//            }
+//            else if(data -> switchStatus != 0) {
+//              digitalWrite(LED_Y, LOW);
+//            }
 
-            if(project_data.light < 300 and project_data.motor == 1) {  //sensors check robot walk throught
-              uint32_t curShadowOnLdr = millis();
-              if(curShadowOnLdr - lastRobotTime > 2000) { //ทับแถบดำนาน 1
-                Serial.print("<!!!!!!!!!On black!!!!!!!!!!>");
-                lastRobotTime = curShadowOnLdr;
-              }
-              else {
-                Serial.print("<-------CurRoom + 1 ------->");
-                project_data.curRoom += 1;
-                uint32_t curShadowOnLdr = 0;
-                project_data.motor = 0;
-                //send onDoor to server
-              }
-            }
+//            if(project_data.light < 300 and project_data.motor == 1) {  //sensors check robot walk throught
+//              uint32_t curShadowOnLdr = millis();
+//              if(curShadowOnLdr - lastRobotTime > 2000) { //ทับแถบดำนาน 1
+//                Serial.print("<+++++++++++++++On black++++++++++++++>");
+//                lastRobotTime = curShadowOnLdr;
+//              }
+//              else {
+//                Serial.print("<-------CurRoom + 1 ------->");
+//                project_data.curRoom += 1;
+//                uint32_t curShadowOnLdr = 0;
+//                project_data.motor = 0;
+//              }
+//            }
                         
-            if(project_data.ultrasonic < 10) {
+            if(project_data.ultrasonic < 10 and data -> motorStatus == 1) {
               //STOP MOTOR
+              Serial.println("Ultrasonic Enable");
+              project_data.motor = 0;
             }
             //server_data.plus = data->plus;
+//            send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
             Serial.println("UPDATE");
           } break;
         }

@@ -1,5 +1,5 @@
-#define trigger_pin 2
-#define in_pin 3
+#define trigger_pin 5
+#define in_pin 6
 long duration, cm;
 
 long microsecondsToCentimeters( long microseconds)
