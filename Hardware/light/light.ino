@@ -1,5 +1,6 @@
-#define ls A0
-#define ldr A1
+#define ls A3
+#define ldr A2
+#define led 4  
 //#define LED 5
 
 int ldrValue = 0;
@@ -10,6 +11,8 @@ void setup() {
   pinMode(ls, INPUT);
 //  pinMode(LED, OUTPUT);
   Serial.begin(9600);
+  pinMode(led, OUTPUT);
+  digitalWrite(led, HIGH);
 }
 
 void loop() {

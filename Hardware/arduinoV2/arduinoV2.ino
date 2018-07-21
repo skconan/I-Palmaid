@@ -4,7 +4,8 @@
 #include "DHT.h"
 
 #define SW 2
-#define ldr A0
+#define ldr A2
+#define lightsen A3
 #define trigger_pin 6
 #define in_pin 5
 
@@ -14,6 +15,7 @@ SoftwareSerial se_write(10, 11); // read only
 
 ///////////////////////////////////////////////////////////
 const int steps = 48;
+int32_t avaiable = 1;
 //Forward
 Stepper forward(steps, 3,7, 8,9);
 //Backward L H L H
@@ -61,7 +63,7 @@ void robot_stop(){
   digitalWrite(9, LOW);
   digitalWrite(3, LOW);
   digitalWrite(7, LOW);
-  delay(500);
+  delay(2000);
 }
 //////////////////////////////////////////////////
 long duration, cm;
@@ -114,6 +116,8 @@ void setup() {
   pinMode(SW, INPUT);
   pinMode(trigger_pin, OUTPUT);
   pinMode(in_pin, INPUT);
+  pinMode(ldr, INPUT);
+  pinMode(lightsen, INPUT);
   //////<--Motor-->///////
     set_speed_motor();
 //  forward.setSpeed(60);
@@ -166,29 +170,19 @@ void loop() {
   Serial.print("SW Send to Node: ");
   Serial.println(project_data.sw);
   project_data.light = analogRead(ldr); ////Light
-  Serial.print("light :");
-  Serial.println(project_data.light);
+  Serial.print("LDR: ");
+  int32_t ldrvalue = analogRead(ldr);
+  Serial.println(ldrvalue);
+  Serial.print("Lightsensors: ");
+  int32_t lightvalue = analogRead(lightsen);
+  Serial.println(digitalRead(lightvalue));
 //  project
   if(a == 0){
     Serial.println("Press");
-    //delay(500);
+    delay(500);
   }
   Serial.println("###################################\n");
-//  delay(1000);
-  //Serial.println(server_data.airOn);
-  /*project_data.plus = b;
-  if(server_data.plus == 1){
-    digitalWrite(LED,HIGH);
-  }
-  else{
-    digitalWrite(LED,LOW);
-  }*/
-//  Serial.print("SizeS: ");
-//  Serial.println(sizeof(ServerData));
-//  Serial.print("SizeP: ");
-//  Serial.println(sizeof(ProjectData));
   if (cur_time - last_sent_time > 500) {//always update
-//    Serial.println(project_data.plus);
     send_to_nodemcu(GET_SERVER_DATA, &server_data, sizeof(ServerData));
     send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
     Serial.println("SEND TO NODE");
@@ -234,43 +228,56 @@ void loop() {
             Serial.print(project_data.curRoom);
             Serial.print(" ---> ");
             Serial.println(data -> goRoom);
-            
+            Serial.print("avaiable: ");
+            Serial.println(avaiable);
             project_data.motor = data -> motorStatus;
-            //Serial.println(server_data.switchStatus);
-//            project_data.motor = data -> motorStatus;//////////////Read from Server
-
-//            if(project_data.sw == 0) {
-//              project_data.motor = 1;
-//            }
-            if(project_data.motor == 1){
-//              project_data.motor = 1;
-              Serial.println("Forward");
-              robot_forward();
-              
-//              if(project_data.curRoom < data -> goRoom) {
-//                //Motor Forward
-//                Serial.println("Forward");
-//                robot_forward();
-//              }
-//              else if(project_data.curRoom > data -> goRoom) {
-//                //Motor Back
-//                Serial.println("backward");
-//                robot_backward();
-//              }
-//
-//              else { //curRoom == goRoom
-//                //Motor off
-//                  Serial.println("motorstop");
-//                robot_stop();
-//              }
-              
+            if(data -> switchStatus == 0){
+              avaiable = 1;
             }
+            
+            if(project_data.motor == 1 and avaiable == 1){
+              Serial.println("Forward");
+//              robot_forward();
+            
+              if(project_data.curRoom < data -> goRoom) {
+                //Motor Forward
+//                Serial.println("Forward");
+                robot_forward();
+              }
+              else if(project_data.curRoom > data -> goRoom) {
+                //Motor Back
+                Serial.println("backward");
+                robot_backward();
+                
+              }
+
+              else if(project_data.curRoom == data -> goRoom) {
+                //Motor off
+                  avaiable = 0;
+                  Serial.println("ENDDDDDDDDDDDDDDDDDDDd");
+                  robot_stop();
+                  project_data.motor = 0;
+              }
+            }  
             else if(project_data.motor == 0) {
               //Motor Off
                 robot_stop();
                 Serial.println("motorstop...............................");
             }
-
+//            if(lightvalue < 500 and ldr > 65) {
+//              robot_left();
+//            }
+//            else if(lightvalue > 900 and ldr < 65){
+//              robot_right();
+//            }
+//            else if(lightvalue > 300 and ldr < 30){
+            if(lightvalue > 350 and ldr < 35){
+              Serial.println("YEAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+              robot_stop();
+              project_data.motor = 0;
+              if(project_data.curRoom < data -> goRoom) project_data.curRoom += 1;
+              else if(project_data.curRoom > data -> goRoom) project_data.curRoom -= 1;
+            }
 //            if(project_data.light < 300 and project_data.motor == 1) {  //sensors check robot walk throught
 //              uint32_t curShadowOnLdr = millis();
 //              if(curShadowOnLdr - lastRobotTime > 2000) { //ทับแถบดำนาน 2 วิ
@@ -296,20 +303,12 @@ void loop() {
               project_data.motor = 0;
             }
 //            else if(data -> sonicStatus >= 10) {
-            else if(cm >= 10) {//if(project_data.ultrasonic >= 10 and project_data.motor == 0) {
+            else if(cm >= 10) {
               //STOP MOTOR
               Serial.println("==================================================================");
               
               project_data.motor = 1;
-//              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
             }
-//            project_data.curRoom = 1;
-//            uint32_t curDataTime = millis();
-//            if (curDataTime - lastTime > 500) {
-//                send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
-//                lastTime = curDataTime;
-//              }
-//              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
 //            }
             
 //            send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
