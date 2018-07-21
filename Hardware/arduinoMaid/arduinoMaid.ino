@@ -142,7 +142,7 @@ int8_t cur_buffer_length = -1;
 int32_t b = -1;
 
 void loop() {
-  project_data.motor = motor;
+//  project_data.motor = motor;
 //  project_data.ultrasonic = sonic;
 //  Serial.println("LOOP");
   delay(500);
@@ -174,7 +174,7 @@ void loop() {
     delay(500);
   }
   Serial.println("###################################\n");
-  delay(1000);
+//  delay(1000);
   //Serial.println(server_data.airOn);
   /*project_data.plus = b;
   if(server_data.plus == 1){
@@ -269,8 +269,6 @@ void loop() {
               //Motor Off
                 robot_stop();
                 Serial.println("motorstop...............................");
-//                delay(200);
-//                backward.step(stepsPerRevolution);
             }
 
 //            if(project_data.light < 300 and project_data.motor == 1) {  //sensors check robot walk throught
@@ -289,21 +287,23 @@ void loop() {
 //                project_data.motor = 0;
 //              }
 //            }
-            if(data -> sonicStatus < 10) {         
-//            if(project_data.ultrasonic < 10) {
+//            if(data -> sonicStatus < 10) {         
+            if(cm < 10) {
               //STOP MOTOR
               Serial.print(project_data.ultrasonic);
               Serial.println("Ultrasonic Enable!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+              robot_stop();
               project_data.motor = 0;
             }
-            else if(data -> sonicStatus >= 10) {
-//            else if(project_data.ultrasonic >= 10) {//if(project_data.ultrasonic >= 10 and project_data.motor == 0) {
+//            else if(data -> sonicStatus >= 10) {
+            else if(cm >= 10) {//if(project_data.ultrasonic >= 10 and project_data.motor == 0) {
               //STOP MOTOR
               Serial.println("==================================================================");
+              
               project_data.motor = 1;
 //              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
             }
-            project_data.curRoom = 1;
+//            project_data.curRoom = 1;
 //            uint32_t curDataTime = millis();
 //            if (curDataTime - lastTime > 500) {
 //                send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
@@ -333,7 +333,7 @@ void loop() {
 //              project_data.motor = 1;
 ////              send_to_nodemcu(UPDATE_PROJECT_DATA, &project_data, sizeof(ProjectData));
 //            }
-  sonic = project_data.ultrasonic;
-  motor = project_data.motor;
+//  sonic = project_data.ultrasonic;
+//  motor = project_data.motor;
 }
 
