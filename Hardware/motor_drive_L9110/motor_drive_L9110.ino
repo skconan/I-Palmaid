@@ -80,6 +80,7 @@ void robot_left(){
 }
 void robot_stop(){
   Serial.println("Robot Stop");
+<<<<<<< HEAD
   digitalWrite(8,LOW);
   digitalWrite(9,LOW);
   digitalWrite(3,LOW);
@@ -105,5 +106,29 @@ void loop() {
     delay(500);}
   else robot_forward();
   delay(500);
+=======
+digitalWrite(8,LOW);
+  digitalWrite(9,HIGH);
+  digitalWrite(3,LOW);
+    digitalWrite(7,HIGH);
+  delay(100);
+
+}
+void loop() {
+  // step one revolution  in one direction:
+  
+  robot_forward();
+  delay(2000);
+  
+  robot_backward();
+//  
+  delay(2000);
+   robot_right();
+//  
+  delay(2000);
+  robot_left();
+//  
+  delay(2000);
+>>>>>>> 8e30a3b0f4d7570bc5cbeba3875a0f67d10441dd
 }
 
