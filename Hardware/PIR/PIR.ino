@@ -1,5 +1,5 @@
-#define alarmPin = 0;
-#define alarmValue = 0;
+#define alarmPin 16
+
 void setup () 
 {
       Serial.begin (9600);
@@ -7,7 +7,7 @@ void setup ()
 }
 void loop ()
 {
-alarmValue = analogRead(alarmPin);
-      Serial.println (alarmValue);
+//alarmValue = analogRead(alarmPin);
+      Serial.println (analogRead(alarmPin));
 delay (500);
 }

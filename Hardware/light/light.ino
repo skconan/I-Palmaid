@@ -1,4 +1,4 @@
-#define ldr A5
+#define ldr A0
 //#define LED 5
 
 int ldrValue = 0;
