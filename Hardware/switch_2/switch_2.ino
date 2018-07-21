@@ -1,5 +1,5 @@
-#define SWITCH 5
-#define LED 6
+#define SWITCH 2
+#define LED 4
 
 int inp;
 void setup() {
