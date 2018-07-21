@@ -10,7 +10,6 @@ $(function(){
     var post =""
     var recieve = ""
     var check=""
-    var first_time =true
 
     
     var recieve_server =function(address,msg){
@@ -35,37 +34,39 @@ $(function(){
             type: "POST",
             url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-" + keys + "/set",
             data: {
-                value: message
+                value: Number(message)
             },
             dataType: "text",
             success: function (response) {
-                post = message
+                // post = message
                 console.log(response)
+                console.log("send complete")
             }
         });
     }
     $('#go_room_1').on('click',function(){
         keys = "goRoom" 
         message = 1
-        send_server(message,keys)
+        send_server(1,keys)
         box("กำลังไปห้องเบอร์ 1")
     })
     $('#back_laundry').on('click',function(){
-        keys = "backLaundry"
+        keys = "goRoom"
         message = 0
-        send_server(message,keys)
+        send_server(0,keys)
         box("กำลังไปห้องซักรีด")
     })
     $('#stop').on('click',function(){
         keys = "motorStatus"
         message = 0
-        send_server(message,keys)
+        send_server(0,keys)
         box("หยุดทำงาน")
     })
     var box = function(status){
     $('#box_status').html(`สถานะ : <p>${status}</p>`)
     }
     var i = 0
+    var first_time =true
     setInterval(function(){ 
         let status = ""
         
@@ -74,14 +75,15 @@ $(function(){
         ////reset value on server
 
         if (first_time==true){
-            while (i < 3) {
-                send_server("",address[i])
-            }
+            send_server(" ",address[0])
+            send_server(" ",address[1])
+            send_server(" ",address[2])
             first_time = false
             console.log("reset value")
-        }   
+        }
+           
 
-        while (i < 3) {
+        while(i < 3) {
             console.log("in refresh "+ check )
             console.log("end check server")
             if (check ==""){

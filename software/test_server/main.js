@@ -1,8 +1,11 @@
 // var refreshIntervalId = setInterval(fname, 10000);
 $(function(){
+    var a=""
     var recieve = ""
-    var send = function(add){        
-        let a = $('#text-input').val()
+    var send = function(add){
+        if (a == ""){        
+        a = $('#text-input').val()
+        }
         $.ajax({
         type: "POST",
         url: "http://ecourse.cpe.ku.ac.th/exceed/api/iPalm-"+add +"/set",
@@ -74,5 +77,12 @@ $(function(){
 
     $(`#go_room`).on('click',function(){
         send("goRoom")
+    })
+
+    $(`#1`).on('click',function(){
+        a="1"
+    })
+    $(`#0`).on('click',function(){
+        a="0"
     })
 })
