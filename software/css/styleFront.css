@@ -87,3 +87,22 @@ body {
 .imgMap { position:relative; top: 0px; left: 0px; z-index: 1; } 
 
 #myContainer { position:relative}
+
+
+table {
+  font-family: "TH K2D July8";
+  border-collapse: collapse;
+  width: 80%;
+}
+
+
+td,
+th {
+  border: 1px solid #000000;
+  text-align: center;
+  padding: 4px;
+}
+
+tr:first-child {
+  background-color: #ffcc5c;
+}

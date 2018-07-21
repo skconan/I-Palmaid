@@ -22,9 +22,15 @@
     </div>
 
     <div id="navbar">
-        <a class="active" href="#box_status"><h3>ควบคุม</h3></a>
-        <a href="#myContainer"><h3>แผนผัง</h3></a>
-        <a href="javascript:void(0)"><h3>ประวัติ</h3></a>
+        <a class="active" href="#box_status">
+            <h3>ควบคุม</h3>
+        </a>
+        <a href="#myContainer">
+            <h3>แผนผัง</h3>
+        </a>
+        <a href="#history">
+            <h3>ประวัติ</h3>
+        </a>
     </div>
     <br>
     <br>
@@ -34,11 +40,17 @@
         </div>
         <br>
 
-        <button id="back_laundry" type="button" class="btn btn-danger btn-xlarge" onclick="myBack()"> <h1>ห้องซักรีด</h1></button>
-        <button id="go_room_1" type="button" class="btn btn-info btn-xlarge" onclick="myMove()"><h1>ห้อง A1</h1></button>
+        <button id="back_laundry" type="button" class="btn btn-danger btn-xlarge" onclick="myBack()">
+            <h1>ห้องซักรีด</h1>
+        </button>
+        <button id="go_room_1" type="button" class="btn btn-info btn-xlarge" onclick="myMove()">
+            <h1>ห้อง A1</h1>
+        </button>
         <br>
         <br>
-        <button id="stop" type="button" class="btn btn-secondary" onclick="stopRobot()">หยุดการใช้งาน</button>
+        <button id="stop" type="button" class="btn btn-secondary">
+            <h3>หยุดการใช้งาน</h3>
+        </button>
     </div>
     </div>
     <br>
@@ -48,13 +60,38 @@
             <img src="./img/Circle.png">
         </div>
     </div>
-    <script src="javascirpt/front.js"></script>
+    <br>
+    <br>
+    <div align="center">
+        <h1>ประวัติ</h1>
+        <table id="history">
+
+            <tr>
+                <th>
+                    วันที่
+                </th>
+                <th>
+                    เวลา
+                </th>
+                <th>
+                    ห้อง
+                </th>
+            </tr>
+           
+        </table>
+    </div>
+    <br>
+
+
+
+
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
         crossorigin="anonymous"></script>
-    <script src="./javascirpt/main_server.js    "></script>
+    <script src="./javascirpt/front.js"></script>
 </body>
 
 </html>
