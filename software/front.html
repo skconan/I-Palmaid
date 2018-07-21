@@ -23,24 +23,29 @@
 
     <div id="navbar">
         <a class="active" href="#box_status">ควบคุม</a>
-        <a href="javascript:void(0)">แผนผัง</a>
+        <a href="javascript:void(0)">แผนผังจ้า</a>
         <a href="javascript:void(0)">เพิ่มเติม</a>
     </div>
     <br>
     <br>
-    <div id="box_status" align="center">
+    <div align="center">
         <div class="alert alert-info" role="alert" id="alert-size">
-            <h2>สถานะ: พร้อมใช้งาน </h2>
-        </div> 
+            <h2 id="box_status">สถานะ: พร้อมใช้งาน </h2>
+        </div>
+        <br>
+
+        <button id="back_laundry" type="button" class="btn btn-danger btn-xlarge"> ห้องซักรีด</button>
+        <button id="go_room_1" type="button" class="btn btn-info btn-xlarge" onclick="myMove()"> ห้อง A1</button>
+        <br>
+        <br>
+        <button id="stop" type="button" class="btn btn-secondary">หยุดการใช้งาน</button>
+    </div>
     </div>
     <br>
-    <div class="content">
-        <div align="center">
-            <button id="back_laundry" type="button" class="btn btn-danger btn-xlarge"> ห้องซักรีด</button>
-            <button id="go_room_1" type="button" class="btn btn-info btn-xlarge"> ห้อง A1</button>
-            <br>
-            <br>
-            <button id="stop" type="button" class="btn btn-secondary">หยุดการใช้งาน</button>
+    <div id="myContainer" align="center">
+        <img class="imgMap" src="./img/map.png">
+        <div id="myAnimation">
+            <img src="./img/Circle.png">
         </div>
     </div>
     <script src="javascirpt/front.js"></script>
