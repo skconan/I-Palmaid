@@ -16,7 +16,7 @@
     }
     #box {
       height: 700px;
-      width: 800px;
+      width: 300px;
       background-color:#FFFFFF;
       overflow-y: auto; /* showing scrollbars */
     }
@@ -28,25 +28,26 @@
     <br>
     <div class="container-fluid">
       <div class="row">
-      <div class="col-4">
-    <input type="text" class="form-control" id="text-input" placeholder="...">
-    <div class="my-1">
-      <button id="0" class="btn btn-primary">0</button>
-      <button id="1" class="btn btn-primary">1</button>
-    </div>
-    <div class="my-1">
-      <button id="get" class="btn btn-primary">get</button>
-      <button id="push" class="btn btn-primary">push</button>
-      <button id="stop" class="btn btn-primary">Stop</button>
-    </div>
-    <div class="my-1">
-      <h2>server : </h2>
-      <button id="switch" class="btn btn-primary">switch</button>
-      <button id="go_room" class="btn btn-primary">go room</button>
-      <button id="motor" class="btn btn-primary">motor</button>  
-    </div>
-  </div>
-  <div class="col-8">
+        <div class="col-5">
+          <input type="text" class="form-control" id="text-input" placeholder="...">
+          <div class="my-1">
+            <button id="0" class="btn btn-primary">0</button>
+            <button id="1" class="btn btn-primary">1</button>
+          </div>
+          <div class="my-1">
+            <button id="get" class="btn btn-primary">get</button>
+            <button id="push" class="btn btn-primary">push</button>
+            <button id="stop" class="btn btn-primary">Stop</button>
+          </div>
+          <div class="my-1">
+            <h2>server : </h2>
+            <button id="switch" class="btn btn-primary">switch</button>
+            <button id="go_room" class="btn btn-primary">go room</button>
+            <button id="current_room" class="btn btn-primary">current room</button>            
+            <button id="motor" class="btn btn-primary">motor</button>  
+          </div>
+        </div>
+        <div class="col-6">
     <div class="borders">
       <div id="box">
       </div>
