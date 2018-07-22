@@ -115,7 +115,7 @@ img, button {
  }
 #myAnimation {
   position: absolute;
-  top: 90px; left: 370px; z-index: 3;
+  top: 0px; left: 470px; z-index: 3;
 }
 
 .imgMap { position:relative; top: 0px; left: 0px; z-index: 1; } 

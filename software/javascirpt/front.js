@@ -1,7 +1,7 @@
 var tempArrayDate = [];
 var tempArrayTime = [];
 var tempArrayRoom = [];
-var pos = 370;
+var pos = 470;
 var stop = false;
 var id;
 window.onscroll = function () { myFunction() };
@@ -53,7 +53,7 @@ function myMove() {
   var elem = document.getElementById("myAnimation");
   id = setInterval(frame, 1);
   function frame() {
-    if (pos == 1050 || stop == true) {
+    if (pos == 1200 || stop == true) {
       clearInterval(id);
       stop = false
     } else {
@@ -71,7 +71,7 @@ function myBack() {
   var elem = document.getElementById("myAnimation");
   id = setInterval(frame, 1);
   function frame() {
-    if (pos == 370 || stop == true) {
+    if (pos == 470 || stop == true) {
       clearInterval(id);
       stop = false
     } else {
@@ -104,7 +104,6 @@ function writeFile(room) {
   let min = now.getMinutes();
 
   let setTime = hour + ":" + min;
-
 
   if(dateNew != setDate && timeNew != setTime){
     tempArrayDate.push(setDate)

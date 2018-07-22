@@ -135,7 +135,7 @@ $(function(){
                 }
 
             }
-        
+            
             else if(check == "current room"){
                 if (revCurrent == 2){
                     message = "อยู่ที่ห้องซักรีด"
