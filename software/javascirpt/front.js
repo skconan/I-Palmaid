@@ -88,6 +88,11 @@ function stopRobot() {
   stop = true;
 }
 
+var dateNew = "";
+var timeNew = "";
+var roomNew = "";
+
+
 function writeFile(room) {
   const now = new Date();
   let day = now.getDate();
@@ -100,18 +105,25 @@ function writeFile(room) {
 
   let setTime = hour + ":" + min;
 
-  tempArrayDate.push(setDate)
-  tempArrayTime.push(setTime)
-  tempArrayRoom.push(room)
 
-  $("#history").append(
-    `<tr>
-    <td>${setDate}</td>
-    <td>${setTime}</td>
-    <td>${room}</td>
-    </tr>`)
+  if(dateNew != setDate && timeNew != setTime){
+    tempArrayDate.push(setDate)
+    tempArrayTime.push(setTime)
+    tempArrayRoom.push(room)
 
-  localStorage.date = [tempArrayDate];
-  localStorage.time = [tempArrayTime];
-  localStorage.room = [tempArrayRoom];
+    $("#history").append(
+      `<tr>
+      <td>${setDate}</td>
+      <td>${setTime}</td>
+      <td>${room}</td>
+      </tr>`)
+
+    localStorage.date = [tempArrayDate];
+    localStorage.time = [tempArrayTime];
+    localStorage.room = [tempArrayRoom];
+
+    dateNew = setDate;
+    timeNew = setTime;
+    roomNew = room;
+  }
 }
