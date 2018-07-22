@@ -16,7 +16,15 @@
  */
 
 #include <Stepper.h>
+#define sw 2
+#define trigger_pin 6
+#define in_pin 5
+long duration, cm;
 
+long microsecondsToCentimeters( long microseconds)
+{
+  return microseconds / 29 / 2;
+}
 const int steps = 48;  // change this to fit the number of steps per revolution
 // for your motor
 
@@ -41,6 +49,9 @@ void set_speed_motor(){
 void setup() {
   // initialize the serial port:
   Serial.begin(115200);
+  pinMode(trigger_pin, OUTPUT);
+  pinMode(in_pin, INPUT);
+  pinMode(sw, INPUT);
   set_speed_motor();
 }
 void robot_forward(){
@@ -69,27 +80,31 @@ void robot_left(){
 }
 void robot_stop(){
   Serial.println("Robot Stop");
-digitalWrite(8,LOW);
+  digitalWrite(8,LOW);
   digitalWrite(9,LOW);
   digitalWrite(3,LOW);
     digitalWrite(7,LOW);
   delay(100);
-
 }
 void loop() {
   // step one revolution  in one direction:
-  
+//  digitalWrite(trigger_pin, LOW);
+//  delayMicroseconds(2);
+//  digitalWrite(trigger_pin, HIGH);
+//  delayMicroseconds(10);
+//  digitalWrite(trigger_pin, LOW);
+//  duration = pulseIn(in_pin, HIGH);
+//  cm = microsecondsToCentimeters(duration);
+//  Serial.print(cm);
+//  Serial.println(" cm.");
+//  if(digitalRead(sw) == 0){
+//    Serial.println("!!!!!!!!!!Press!!!!!!!!!!");
+//  }
+//  if(cm<20){
+//    robot_stop();
+//    delay(500);}
+//  else 
   robot_forward();
-  delay(2000);
-  
-  robot_backward();
-//  
-  delay(2000);
-   robot_right();
-//  
-  delay(2000);
-  robot_left();
-//  
-  delay(2000);
+  delay(500);
 }
 
