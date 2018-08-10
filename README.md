@@ -16,3 +16,6 @@
 * ลองสั่งให้มอเตอร์หมุน โดยใช้คำสั่ง step(stepsPerRevolution); ตอนนี้ stepsPerRevolution เป็น `+` ก็ควรจะหมุนไปข้างหน้าไม่ไม่ไปข้างหน้าให้สลับสาย
 * ทำแบบนี้กับอีกมอเตอร์
 * คราวนี้เราจะมาทำให้มันเลี้ยวขวา เลี้ยวซ้ายกัน เราก็สร้างตัว stepper สำหรับเลี้ยวซ้าย ขวา มา โดยการสลับ port จะให้มอเตอร์หมุนถิยหลังข้างนึง ีกข้างนึงเดินหน้า
+
+### NodeMCU driver
+[**CP210x_Universal_Windows_Driver.zip**](https://www.silabs.com/documents/public/software/CP210x_Universal_Windows_Driver.zip)
